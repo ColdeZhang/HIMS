@@ -45,10 +45,10 @@ class PatientInformationDTO : public oatpp::DTO {
   DTO_FIELD(String, phone1);
   DTO_FIELD_INFO(phone1){info->description = "亲属电话";}
 
-  DTO_FIELD(Int64, create_time);
+  DTO_FIELD(String, create_time);
   DTO_FIELD_INFO(create_time){info->description = "创建时间";}
 
-  DTO_FIELD(Int64, update_time);
+  DTO_FIELD(String, update_time);
   DTO_FIELD_INFO(update_time){info->description = "更新时间";}
 
   DTO_FIELD(Boolean, is_delete) = false;
