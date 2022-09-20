@@ -25,13 +25,22 @@ add_library(${project_name}-lib
 
         "src/controller/PatientController.h"
 
-        "src/dtos/PatientInformationDTO.h"
+        "src/service/PatientService.h"
+        "src/service/PatientService.cpp"
+
+        "src/dtos/PatientDTO.h"
         "src/dtos/ConfigDTO.h"
         "src/dtos/StatusDTO.h"
         "src/dtos/PageDTO.h"
+        "src/dtos/ResultDTO.h"
 
         "src/db/PatientDB.h"
 )
+
+add_library(util
+        "src/util/empty.cpp"
+        "src/util/urlDecode.h"
+        )
 
 target_link_libraries(${project_name}-lib
         PUBLIC oatpp::oatpp
@@ -46,7 +55,7 @@ add_definitions(
         -DOATPP_SWAGGER_RES_PATH="${oatpp-swagger_INCLUDE_DIRS}/../bin/oatpp-swagger/res"
 
         # Path to config file #
-        -DCONFIG_PATH="${CMAKE_CURRENT_LIST_DIR}/resources/config.json"
+        -DCONFIG_PATH="${PROJECT_SOURCE_DIR}/configuration/config.json"
 
         ## Path to database migration scripts
         -DDATABASE_MIGRATIONS="${CMAKE_CURRENT_SOURCE_DIR}/sql"
@@ -56,5 +65,7 @@ add_executable(test_oatpp
         "tests/test_oatpp.cpp")
 
 target_link_libraries(test_oatpp ${project_name}-lib)
-add_dependencies(test_oatpp ${project_name}-lib)
+add_dependencies(test_oatpp 
+        ${project_name}-lib
+        util)
 

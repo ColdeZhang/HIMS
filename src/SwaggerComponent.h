@@ -15,18 +15,18 @@ public:
    *  General API docs info
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::swagger::DocumentInfo>, swaggerDocumentInfo)([] {
-    OATPP_COMPONENT(oatpp::Object<ConfigDto>, config); // Get config component
+    OATPP_COMPONENT(oatpp::Object<ConfigDTO>, config); // Get config component
     
     oatpp::swagger::DocumentInfo::Builder builder;
     
     builder
-    .setTitle("Example: user-service")
-    .setDescription("Service which stores and reads user info to/from postgresql database")
+    .setTitle("HIMS - API")
+    .setDescription("Hospital Information Manage System backend api documentation.")
     .setVersion("1.0")
-    .setContactName("Leonid Stryzhevskyi")
-    .setContactUrl("https://oatpp.io/")
+    .setContactName("Deer")
+    .setContactUrl("https://blog.deercloud.site/")
     
-    .addServer("http://localhost:" + oatpp::utils::conversion::int32ToStr(config->port), "server on localhost");
+    .addServer("http://" + config->swaggerHost, "server on localhost");
     
     return builder.build();
     

@@ -5,11 +5,12 @@
 
 前端使用amis框架，兼容pc端和移动端。
 
+```
 |- CMakeLists.txt                        // 项目配置 CMakeLists.txt
 |- src/
 |    |
-|    |- controller/                      // http 接口与路由注册
-|    |- db/                              // 数据库访问接口
+|    |- controller/                      // http 接口与路由注册 swagger文档信息
+|    |- db/                              // 数据库访问接口、语句
 |    |- dtos/                            // DTO 文件存放目录
 |    |- service/                         // 接口功能逻辑实现
 |    |- ServiceComponent.hpp             // Service 配置 (端口, ObjectMapper, 数据库)
@@ -21,3 +22,4 @@
 |- tests/                                // 测试文件存放
 |- utility/                              // 部署脚本、工具等
 |- configuration/config.json             // 配置文件存放
+```

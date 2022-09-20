@@ -22,8 +22,10 @@ void run(const oatpp::base::CommandLineArguments& args) {
   auto router = serviceComponent.httpRouter.getObject();
   oatpp::web::server::api::Endpoints docEndpoints;
 
-  docEndpoints.append(router->addController(UserController::createShared())->getEndpoints());
+  auto endpoints = router->addController(PatientController::createShared())->getEndpoints();
+  docEndpoints.append(endpoints);
 
+  /* 添加 Swagger 进路由表 */
   router->addController(oatpp::swagger::Controller::createShared(docEndpoints));
 
   /* create server */

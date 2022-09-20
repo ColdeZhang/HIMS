@@ -22,7 +22,7 @@ public:
   /**
    * This should be configured through config-server ex. Consul
    */
-  OATPP_CREATE_COMPONENT(oatpp::Object<ConfigDto>, config)([this] {
+  OATPP_CREATE_COMPONENT(oatpp::Object<ConfigDTO>, config)([this] {
 
     const char* configPath = CONFIG_PATH;
     auto objectMapper = oatpp::parser::json::mapping::ObjectMapper::createShared();
@@ -30,7 +30,7 @@ public:
     oatpp::String configText = oatpp::String::loadFromFile(configPath);
     if (configText) {
 
-      auto profiles = objectMapper->readFromString<oatpp::Fields<oatpp::Object<ConfigDto>>>(configText);
+      auto profiles = objectMapper->readFromString<oatpp::Fields<oatpp::Object<ConfigDTO>>>(configText);
 
       const char *profileArg = std::getenv("CONFIG_PROFILE"); // first read from env variable
       if (profileArg == nullptr) {

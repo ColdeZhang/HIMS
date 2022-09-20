@@ -28,8 +28,8 @@ public:
    *  Create ConnectionProvider component which listens on the port
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ServerConnectionProvider>, serverConnectionProvider)([] {
-    OATPP_COMPONENT(oatpp::Object<ConfigDto>, config); // Get config component
-    return oatpp::network::tcp::server::ConnectionProvider::createShared({"0.0.0.0", config->port, oatpp::network::Address::IP_4});
+    OATPP_COMPONENT(oatpp::Object<ConfigDTO>, config); // Get config component
+    return oatpp::network::tcp::server::ConnectionProvider::createShared({config->host, config->port, oatpp::network::Address::IP_4});
   }());
   
   /**

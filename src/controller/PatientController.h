@@ -15,98 +15,129 @@
  */
 class PatientController : public oatpp::web::server::api::ApiController {
 public:
-  UserController(const std::shared_ptr<ObjectMapper>& objectMapper)
+  PatientController(const std::shared_ptr<ObjectMapper>& objectMapper)
     : oatpp::web::server::api::ApiController(objectMapper)
   {}
 private:
-  UserService m_userService; // Create user service.
+  PatientService m_patientService; // Create user service.
 public:
 
-  static std::shared_ptr<UserController> createShared(
+  static std::shared_ptr<PatientController> createShared(
     OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper) // Inject objectMapper component here as default parameter
   ){
-    return std::make_shared<UserController>(objectMapper);
+    return std::make_shared<PatientController>(objectMapper);
   }
   
-  ENDPOINT_INFO(createUser) {
-    info->summary = "Create new User";
-
-    info->addConsumes<Object<PatientInformationDTO>>("application/json");
-
-    info->addResponse<Object<PatientInformationDTO>>(Status::CODE_200, "application/json");
-    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
-    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+  ENDPOINT_INFO(createPatient) {
+    info->summary = "创建患者信息";
+    info->addConsumes<Object<PatientDTO::CREATE>>("application/json");
+    info->addResponse<Object<PatientDTO::GET>>(Status::CODE_200, "application/json");
   }
-  ENDPOINT("POST", "users", createUser,
-           BODY_DTO(Object<PatientInformationDTO>, userDto))
+  ENDPOINT("POST", "patient", createPatient, BODY_DTO(Object<PatientDTO::CREATE>, dto))
   {
-    return createDtoResponse(Status::CODE_200, m_userService.createUser(userDto));
+    return createDtoResponse(Status::CODE_200, m_patientService.createPatient(dto));
   }
   
   
-  ENDPOINT_INFO(putUser) {
-    info->summary = "Update User by userId";
-
-    info->addConsumes<Object<PatientInformationDTO>>("application/json");
-
-    info->addResponse<Object<PatientInformationDTO>>(Status::CODE_200, "application/json");
-    info->addResponse<Object<StatusDto>>(Status::CODE_404, "application/json");
-    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
-
-    info->pathParams["userId"].description = "User Identifier";
+  ENDPOINT_INFO(updatePatient) {
+    info->summary = "依据uuid更新患者信息";
+    info->addConsumes<Object<PatientDTO::SET>>("application/json");
+    info->addResponse<Object<PatientDTO::GET>>(Status::CODE_200, "application/json");
+    info->pathParams["uuid"].description = "患者UUID";
   }
-  ENDPOINT("PUT", "users/{userId}", putUser,
-           PATH(String, userId),
-           BODY_DTO(Object<PatientInformationDTO>, userDto))
+  ENDPOINT("PUT", "patient", updatePatient,
+           BODY_DTO(Object<PatientDTO::SET>, dot))
   {
-    userDto->id = userId;
-    return createDtoResponse(Status::CODE_200, m_userService.updateUser(userDto));
+    return createDtoResponse(Status::CODE_200, m_patientService.updatePatient(dot));
   }
   
   
-  ENDPOINT_INFO(getUserById) {
-    info->summary = "Get one User by userId";
-
-    info->addResponse<Object<PatientInformationDTO>>(Status::CODE_200, "application/json");
-    info->addResponse<Object<StatusDto>>(Status::CODE_404, "application/json");
-    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
-
-    info->pathParams["userId"].description = "User Identifier";
+  ENDPOINT_INFO(getPatientByUUID) {
+    info->summary = "根据uuid获取患者信息";
+    info->addResponse<Object<PatientDTO::GET>>(Status::CODE_200, "application/json");
+    info->pathParams["uuid"].description = "患者UUID";
   }
-  ENDPOINT("GET", "users/{userId}", getUserById,
-           PATH(String, userId))
+  ENDPOINT("GET", "patient/uuid/{uuid}", getPatientByUUID,
+           PATH(String, uuid))
   {
-    return createDtoResponse(Status::CODE_200, m_userService.getUserById(userId));
+    return createDtoResponse(Status::CODE_200, m_patientService.getPatientByUUID(uuid));
   }
-  
-  
-  ENDPOINT_INFO(getUsers) {
-    info->summary = "get all stored users";
 
-    info->addResponse<oatpp::Object<UsersPageDto>>(Status::CODE_200, "application/json");
-    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+  ENDPOINT_INFO(getPatientByIDN) {
+    info->summary = "根据身份证号获取患者信息";
+    info->addResponse<Object<PatientDTO::MultiResults>>(Status::CODE_200, "application/json");
+    info->pathParams["idn"].description = "患者身份证号";
   }
-  ENDPOINT("GET", "users/offset/{offset}/limit/{limit}", getUsers,
-           PATH(UInt32, offset),
-           PATH(UInt32, limit))
+  ENDPOINT("GET", "patient/idn/{idn}", getPatientByIDN,
+           PATH(String, idn))
   {
-    return createDtoResponse(Status::CODE_200, m_userService.getAllUsers(offset, limit));
+    return createDtoResponse(Status::CODE_200, m_patientService.getPatientsByIDN(idn));
   }
-  
-  
-  ENDPOINT_INFO(deleteUser) {
-    info->summary = "Delete User by userId";
 
-    info->addResponse<Object<StatusDto>>(Status::CODE_200, "application/json");
-    info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
-
-    info->pathParams["userId"].description = "User Identifier";
+  ENDPOINT_INFO(getPatientByName) {
+    info->summary = "根据姓名获取患者信息";
+    info->addResponse<Object<PatientDTO::MultiResults>>(Status::CODE_200, "application/json");
+    info->pathParams["name"].description = "患者姓名";
   }
-  ENDPOINT("DELETE", "users/{userId}", deleteUser,
-           PATH(String, userId))
+  ENDPOINT("GET", "patient/name/", getPatientByName,
+           QUERY(String, name))
   {
-    return createDtoResponse(Status::CODE_200, m_userService.deleteUserById(userId));
+    return createDtoResponse(Status::CODE_200, m_patientService.getPatientsByName(name));
   }
+
+  ENDPOINT_INFO(getAllPatients) {
+    info->summary = "获取所有患者信息";
+    info->addResponse<Object<PatientDTO::PageResult>>(Status::CODE_200, "application/json");
+    info->pathParams["offset"].description = "偏移量";
+    info->pathParams["limit"].description = "每页数量";
+  }
+  ENDPOINT("GET", "patient/page/{offset}/{limit}", getAllPatients,
+           PATH(oatpp::UInt32, offset),
+           PATH(oatpp::UInt32, limit))
+  {
+    return createDtoResponse(Status::CODE_200, m_patientService.getAllPatients(offset, limit));
+  }
+
+
+  ENDPOINT_INFO(deletePatient) {
+    info->summary = "根据uuid删除患者信息";
+    info->addResponse<Object<PatientDTO::JustResult>>(Status::CODE_200, "application/json");
+    info->pathParams["uuid"].description = "患者UUID";
+  }
+  ENDPOINT("DELETE", "patient/{uuid}", deletePatient,
+           PATH(String, uuid))
+  {
+    return createDtoResponse(Status::CODE_200, m_patientService.deletePatientByUUID(uuid));
+  }
+  
+  
+  // ENDPOINT_INFO(getUsers) {
+  //   info->summary = "get all stored users";
+
+  //   info->addResponse<oatpp::Object<UsersPageDto>>(Status::CODE_200, "application/json");
+  //   info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+  // }
+  // ENDPOINT("GET", "users/offset/{offset}/limit/{limit}", getUsers,
+  //          PATH(UInt32, offset),
+  //          PATH(UInt32, limit))
+  // {
+  //   return createDtoResponse(Status::CODE_200, m_userService.getAllUsers(offset, limit));
+  // }
+  
+  
+  // ENDPOINT_INFO(deleteUser) {
+  //   info->summary = "Delete User by userId";
+
+  //   info->addResponse<Object<StatusDto>>(Status::CODE_200, "application/json");
+  //   info->addResponse<Object<StatusDto>>(Status::CODE_500, "application/json");
+
+  //   info->pathParams["userId"].description = "User Identifier";
+  // }
+  // ENDPOINT("DELETE", "users/{userId}", deleteUser,
+  //          PATH(String, userId))
+  // {
+  //   return createDtoResponse(Status::CODE_200, m_userService.deleteUserById(userId));
+  // }
 
 };
 
