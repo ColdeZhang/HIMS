@@ -60,8 +60,8 @@ public:
     info->pathParams["uuid"].description = "患者UUID";
     info->addTag("患者信息");
   }
-  ENDPOINT("GET", "patient/uuid/{uuid}", getPatientByUUID,
-           PATH(String, uuid))
+  ENDPOINT("GET", "patient/byUuid", getPatientByUUID,
+           QUERY(String, uuid))
   {
     return createDtoResponse(Status::CODE_200, m_patientService.getPatientByUUID(uuid));
   }
@@ -72,8 +72,8 @@ public:
     info->pathParams["idn"].description = "患者身份证号";
     info->addTag("患者信息");
   }
-  ENDPOINT("GET", "patient/idn/{idn}", getPatientByIDN,
-           PATH(String, idn))
+  ENDPOINT("GET", "patient/byIdn", getPatientByIDN,
+           QUERY(String, idn))
   {
     return createDtoResponse(Status::CODE_200, m_patientService.getPatientsByIDN(idn));
   }
@@ -84,7 +84,7 @@ public:
     info->pathParams["name"].description = "患者姓名";
     info->addTag("患者信息");
   }
-  ENDPOINT("GET", "patient/name/", getPatientByName,
+  ENDPOINT("GET", "patient/byName", getPatientByName,
            QUERY(String, name))
   {
     return createDtoResponse(Status::CODE_200, m_patientService.getPatientsByName(name));
@@ -111,8 +111,8 @@ public:
     info->pathParams["uuid"].description = "患者UUID";
     info->addTag("患者信息");
   }
-  ENDPOINT("DELETE", "patient/{uuid}", deletePatient,
-           PATH(String, uuid))
+  ENDPOINT("DELETE", "patient", deletePatient,
+           QUERY(String, uuid))
   {
     return createDtoResponse(Status::CODE_200, m_patientService.deletePatientByUUID(uuid));
   }
