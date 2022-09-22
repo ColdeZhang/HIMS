@@ -30,11 +30,11 @@ public:
   
   ENDPOINT_INFO(createPatient) {
     info->summary = "创建患者信息";
-    info->addConsumes<Object<PatientDTO::CREATE>>("application/json");
-    info->addResponse<Object<PatientDTO::GET>>(Status::CODE_200, "application/json");
+    info->addConsumes<Object<PatientDTO::info_without_uuid_time>>("application/json");
+    info->addResponse<Object<PatientDTO::info_with_uuid_time>>(Status::CODE_200, "application/json");
     info->addTag("患者信息");
   }
-  ENDPOINT("POST", "patient", createPatient, BODY_DTO(Object<PatientDTO::CREATE>, dto))
+  ENDPOINT("POST", "patient", createPatient, BODY_DTO(Object<PatientDTO::info_without_uuid_time>, dto))
   {
     return createDtoResponse(Status::CODE_200, m_patientService.createPatient(dto));
   }
@@ -42,13 +42,13 @@ public:
   
   ENDPOINT_INFO(updatePatient) {
     info->summary = "依据uuid更新患者信息";
-    info->addConsumes<Object<PatientDTO::SET>>("application/json");
-    info->addResponse<Object<PatientDTO::GET>>(Status::CODE_200, "application/json");
+    info->addConsumes<Object<PatientDTO::info_with_uuid_no_time>>("application/json");
+    info->addResponse<Object<PatientDTO::info_with_uuid_time>>(Status::CODE_200, "application/json");
     info->pathParams["uuid"].description = "患者UUID";
     info->addTag("患者信息");
   }
   ENDPOINT("PUT", "patient", updatePatient,
-           BODY_DTO(Object<PatientDTO::SET>, dot))
+           BODY_DTO(Object<PatientDTO::info_with_uuid_no_time>, dot))
   {
     return createDtoResponse(Status::CODE_200, m_patientService.updatePatient(dot));
   }
@@ -56,7 +56,7 @@ public:
   
   ENDPOINT_INFO(getPatientByUUID) {
     info->summary = "根据uuid获取患者信息";
-    info->addResponse<Object<PatientDTO::GET>>(Status::CODE_200, "application/json");
+    info->addResponse<Object<PatientDTO::info_with_uuid_time>>(Status::CODE_200, "application/json");
     info->pathParams["uuid"].description = "患者UUID";
     info->addTag("患者信息");
   }
@@ -67,8 +67,8 @@ public:
   }
 
   ENDPOINT_INFO(getPatientByIDN) {
-    info->summary = "根据身份证号获取患者信息";
-    info->addResponse<Object<PatientDTO::MultiResults>>(Status::CODE_200, "application/json");
+    info->summary = "根据身份证号模糊获取多个患者信息 - 最多5条";
+    info->addResponse<Object<PatientDTO::result_with_multi>>(Status::CODE_200, "application/json");
     info->pathParams["idn"].description = "患者身份证号";
     info->addTag("患者信息");
   }
@@ -79,8 +79,8 @@ public:
   }
 
   ENDPOINT_INFO(getPatientByName) {
-    info->summary = "根据姓名获取患者信息";
-    info->addResponse<Object<PatientDTO::MultiResults>>(Status::CODE_200, "application/json");
+    info->summary = "根据姓名模糊获取患者信息 - 最多5条";
+    info->addResponse<Object<PatientDTO::result_with_multi>>(Status::CODE_200, "application/json");
     info->pathParams["name"].description = "患者姓名";
     info->addTag("患者信息");
   }
@@ -92,22 +92,22 @@ public:
 
   ENDPOINT_INFO(getAllPatients) {
     info->summary = "获取所有患者信息";
-    info->addResponse<Object<PatientDTO::PageResult>>(Status::CODE_200, "application/json");
-    info->pathParams["offset"].description = "偏移量";
-    info->pathParams["limit"].description = "每页数量";
+    info->addResponse<Object<PatientDTO::result_with_page>>(Status::CODE_200, "application/json");
+    info->pathParams["page"].description = "页码";
+    info->pathParams["eachPage"].description = "每页数量";
     info->addTag("患者信息");
   }
-  ENDPOINT("GET", "patient/page/{offset}/{limit}", getAllPatients,
-           PATH(oatpp::UInt32, offset),
-           PATH(oatpp::UInt32, limit))
+  ENDPOINT("GET", "patient/page", getAllPatients,
+           QUERY(oatpp::UInt32, page),
+           QUERY(oatpp::UInt32, totalPage))
   {
-    return createDtoResponse(Status::CODE_200, m_patientService.getAllPatients(offset, limit));
+    return createDtoResponse(Status::CODE_200, m_patientService.getAllPatients(page, totalPage));
   }
 
 
   ENDPOINT_INFO(deletePatient) {
     info->summary = "根据uuid删除患者信息";
-    info->addResponse<Object<PatientDTO::JustResult>>(Status::CODE_200, "application/json");
+    info->addResponse<Object<PatientDTO::result_with_nothing>>(Status::CODE_200, "application/json");
     info->pathParams["uuid"].description = "患者UUID";
     info->addTag("患者信息");
   }

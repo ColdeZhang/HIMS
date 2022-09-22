@@ -33,7 +33,7 @@ public:
         "(uuid_generate_v4(), :info.name, :info.idn, :info.birth, :info.gender, :info.ethnic, :info.address, :info.address1, :info.phone, :info.phone1, localtimestamp(2), localtimestamp(2))"
         "RETURNING uuid, name, idn, birth, gender, ethnic, address, address1, phone, phone1, create_time, update_time;",
         PREPARE(true), // prepared statement!
-        PARAM(oatpp::Object<PatientDTO::CREATE>, info))
+        PARAM(oatpp::Object<PatientDTO::info_without_uuid_time>, info))
 
   QUERY(updatePatient,
         "UPDATE patient_information "
@@ -52,7 +52,7 @@ public:
         " uuid=:info.uuid "
         "RETURNING uuid, name, idn, birth, gender, ethnic, address, address1, phone, phone1, create_time, update_time;",
         PREPARE(true), //<-- prepared statement!
-        PARAM(oatpp::Object<PatientDTO::SET>, info))
+        PARAM(oatpp::Object<PatientDTO::info_with_uuid_no_time>, info))
 
 QUERY(deletePatientByUUID,
         "UPDATE patient_information "

@@ -16,16 +16,16 @@ private:
   OATPP_COMPONENT(std::shared_ptr<PatientDB>, m_database); // Inject database component
 public:
 
-  oatpp::Object<PatientDTO::SingleResult> createPatient(const oatpp::Object<PatientDTO::CREATE>& dto);
-  oatpp::Object<PatientDTO::SingleResult> updatePatient(const oatpp::Object<PatientDTO::SET>& dto);
-  oatpp::Object<PatientDTO::SingleResult> getPatientByUUID(const oatpp::String& uuid);
+  oatpp::Object<PatientDTO::result_with_single> createPatient(const oatpp::Object<PatientDTO::info_without_uuid_time>& dto);
+  oatpp::Object<PatientDTO::result_with_single> updatePatient(const oatpp::Object<PatientDTO::info_with_uuid_no_time>& dto);
+  oatpp::Object<PatientDTO::result_with_single> getPatientByUUID(const oatpp::String& uuid);
 
-  oatpp::Object<PatientDTO::MultiResults> getPatientsByIDN(const oatpp::String& idn);
-  oatpp::Object<PatientDTO::MultiResults> getPatientsByName(const oatpp::String& name);
+  oatpp::Object<PatientDTO::result_with_multi> getPatientsByIDN(const oatpp::String& idn);
+  oatpp::Object<PatientDTO::result_with_multi> getPatientsByName(const oatpp::String& name);
 
-  oatpp::Object<PatientDTO::PageResult> getAllPatients(const oatpp::UInt32& offset, const oatpp::UInt32& limit);
+  oatpp::Object<PatientDTO::result_with_page> getAllPatients(const oatpp::UInt32& page, const oatpp::UInt32& eachPage);
   
-  oatpp::Object<PatientDTO::JustResult> deletePatientByUUID(const oatpp::String& uuid);
+  oatpp::Object<PatientDTO::result_with_nothing> deletePatientByUUID(const oatpp::String& uuid);
 
 };
 
