@@ -45,4 +45,5 @@ CREATE TABLE IF NOT EXISTS medical_record (
 -- SELECT uuid, name, idn, birth, gender, ethnic, address, address1, phone, phone1, create_time, update_time FROM patient_information WHERE is_delete=false LIMIT :limit OFFSET :offset;
 -- SELECT * FROM patient_information WHERE name like '%李%' AND is_delete=false LIMIT 5;
 
-SELECT count(*) FROM patient_information WHERE is_delete=false;
+-- SELECT count(*) FROM patient_information WHERE is_delete=false;
+SELECT * FROM patient_information WHERE name like '%:name%' and is_delete=false;

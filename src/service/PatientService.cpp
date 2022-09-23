@@ -44,7 +44,7 @@ oatpp::Object<PatientDTO::result_with_single> PatientService::updatePatient(cons
 
 oatpp::Object<PatientDTO::result_with_multi> PatientService::getPatientsByIDN(const oatpp::String& idn) {
   auto res = PatientDTO::result_with_multi::createShared();
-  auto dbResult = m_database->executeQuery("SELECT uuid, name, idn, birth, gender, ethnic, address, address1, phone, phone1, create_time, update_time  FROM patient_information WHERE idn like '%"+idn+"%' AND is_delete=false LIMIT 5;",{});
+  auto dbResult = m_database->executeQuery("SELECT uuid, name, idn, birth, gender, ethnic, marital_status, job, company, address, address1, phone, phone1, create_time, update_time  FROM patient_information WHERE idn like '%"+idn+"%' AND is_delete=false LIMIT 5;",{});
   if (!dbResult->isSuccess()){
     res->code = 500;
     res->message = dbResult->getErrorMessage();
@@ -61,7 +61,7 @@ oatpp::Object<PatientDTO::result_with_multi> PatientService::getPatientsByName(c
   auto res = PatientDTO::result_with_multi::createShared();
   // 对name进行utf-8编码
   oatpp::String _name = util::acl_url_decode(name->c_str());
-  auto dbResult = m_database->executeQuery("SELECT uuid, name, idn, birth, gender, ethnic, address, address1, phone, phone1, create_time, update_time  FROM patient_information WHERE name like '%"+_name+"%' AND is_delete=false LIMIT 5;",{});
+  auto dbResult = m_database->executeQuery("SELECT uuid, name, idn, birth, gender, ethnic, marital_status, job, company, address, address1, phone, phone1, create_time, update_time  FROM patient_information WHERE name like '%"+_name+"%' AND is_delete=false LIMIT 5;",{});
   if (!dbResult->isSuccess()){
     res->code = 500;
     res->message = dbResult->getErrorMessage();

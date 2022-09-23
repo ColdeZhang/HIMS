@@ -32,6 +32,15 @@ namespace PatientDTO
     DTO_FIELD(String, ethnic);
     DTO_FIELD_INFO(ethnic){info->description = "民族";}
 
+    DTO_FIELD(String, marital_status);
+    DTO_FIELD_INFO(marital_status){info->description = "婚姻状况";}
+
+    DTO_FIELD(String, job);
+    DTO_FIELD_INFO(job){info->description = "工作";}
+
+    DTO_FIELD(String, company);
+    DTO_FIELD_INFO(company){info->description = "工作单位";}
+
     DTO_FIELD(String, address);
     DTO_FIELD_INFO(address){info->description = "户籍住址";}
 
