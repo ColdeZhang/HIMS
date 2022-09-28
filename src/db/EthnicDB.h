@@ -80,6 +80,10 @@ public:
         OATPP_LOGD("Initing DB","Done!")
   }
 
+  QUERY(getEthnicList,
+        "SELECT * FROM ethnics;",
+        PREPARE(true)) //<-- prepared statement!
+
 };
 
 #include OATPP_CODEGEN_END(DbClient) //<- End Codegen

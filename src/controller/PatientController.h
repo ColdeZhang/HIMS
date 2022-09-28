@@ -11,7 +11,7 @@
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- Begin Codegen
 
 /**
- * User REST controller.
+ * 病人信息api
  */
 class PatientController : public oatpp::web::server::api::ApiController {
 public:

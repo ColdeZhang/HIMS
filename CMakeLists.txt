@@ -24,6 +24,7 @@ add_library(${project_name}-lib
         "src/ErrorHandler.cpp"
 
         "src/controller/PatientController.h"
+        "src/controller/StaticController.h"
 
         "src/service/PatientService.h"
         "src/service/PatientService.cpp"
@@ -33,6 +34,7 @@ add_library(${project_name}-lib
         "src/dtos/StatusDTO.h"
         "src/dtos/PageDTO.h"
         "src/dtos/ResultDTO.h"
+        "src/dtos/static/EthnicDTO.h"
 
         "src/db/PatientDB.h"
         "src/db/EthnicDB.h"
@@ -54,19 +56,22 @@ target_include_directories(${project_name}-lib PUBLIC src)
 add_definitions(
         # Path to swagger-ui resources #
         -DOATPP_SWAGGER_RES_PATH="${oatpp-swagger_INCLUDE_DIRS}/../bin/oatpp-swagger/res"
-
         # Path to config file #
         -DCONFIG_PATH="${PROJECT_SOURCE_DIR}/configuration/config.json"
-
-        ## Path to database migration scripts
-        -DDATABASE_MIGRATIONS="${CMAKE_CURRENT_SOURCE_DIR}/sql"
 )
 
 add_executable(test_oatpp
         "tests/test_oatpp.cpp")
-
 target_link_libraries(test_oatpp ${project_name}-lib)
 add_dependencies(test_oatpp 
         ${project_name}-lib
         util)
+
+add_executable(OHIMS-server
+        "src/App.cpp")
+target_link_libraries(OHIMS-server ${project_name}-lib)
+add_dependencies(OHIMS-server 
+        ${project_name}-lib
+        util)
+
 

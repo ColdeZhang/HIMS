@@ -37,7 +37,7 @@ public:
     auto connectionProvider = std::make_shared<oatpp::postgresql::ConnectionProvider>(config->dbConnectionString);
     /* 创建连接池 */
     auto connectionPool = oatpp::postgresql::ConnectionPool::createShared(connectionProvider,
-                                                                          100 /* max-connections */,
+                                                                          100 /* 最大连接数 */,
                                                                           std::chrono::seconds(5) /* connection TTL */);
     /* 创建连接访问句柄 */
     auto executor = std::make_shared<oatpp::postgresql::Executor>(connectionPool);
