@@ -44,6 +44,10 @@ public:
     res->message = "success";
     return createDtoResponse(Status::CODE_200, res);
   }
+
+
+
+  ADD_CORS(getEthnicList)
   
 };
 

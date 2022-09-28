@@ -60,7 +60,6 @@ public:
     info->pathParams["uuid"].description = "患者UUID";
     info->addTag("患者信息");
   }
-  ADD_CORS(getPatientByUUID)
   ENDPOINT("GET", "patient/byUuid", getPatientByUUID,
            QUERY(String, uuid))
   {
@@ -118,6 +117,9 @@ public:
   {
     return createDtoResponse(Status::CODE_200, m_patientService.deletePatientByUUID(uuid));
   }
+
+
+  ADD_CORS(getPatientByUUID)
 };
 
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- End Codegen

@@ -12,8 +12,8 @@ namespace StaticDto{
   
       DTO_INIT(single_ethnic, DTO)
 
-      DTO_FIELD(UInt8, id);
-      DTO_FIELD(String, ethnic);
+      DTO_FIELD(UInt8, value);
+      DTO_FIELD(String, label);
       
     };
 
