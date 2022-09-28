@@ -13,9 +13,9 @@ namespace PatientDTO
 {
 
   // 患者信息 不包含 UUID 时间戳（用于创建）
-  class CREATE : public oatpp::DTO {
+  class info_without_uuid_time : public oatpp::DTO {
     
-    DTO_INIT(CREATE, DTO)
+    DTO_INIT(info_without_uuid_time, DTO)
 
     DTO_FIELD(String, name);
     DTO_FIELD_INFO(name){info->description = "姓名";}
@@ -32,6 +32,15 @@ namespace PatientDTO
     DTO_FIELD(String, ethnic);
     DTO_FIELD_INFO(ethnic){info->description = "民族";}
 
+    DTO_FIELD(String, marital_status);
+    DTO_FIELD_INFO(marital_status){info->description = "婚姻状况";}
+
+    DTO_FIELD(String, job);
+    DTO_FIELD_INFO(job){info->description = "工作";}
+
+    DTO_FIELD(String, company);
+    DTO_FIELD_INFO(company){info->description = "工作单位";}
+
     DTO_FIELD(String, address);
     DTO_FIELD_INFO(address){info->description = "户籍住址";}
 
@@ -47,9 +56,9 @@ namespace PatientDTO
   };
 
  // 患者信息 包含 UUID 不包含 时间戳（用于更新）
-  class SET : public CREATE {
+  class info_with_uuid_no_time : public info_without_uuid_time {
     
-    DTO_INIT(SET, CREATE)
+    DTO_INIT(info_with_uuid_no_time, info_without_uuid_time)
 
     DTO_FIELD(String, uuid);
     DTO_FIELD_INFO(uuid){info->description = "主键uuid 唯一标识";}
@@ -57,9 +66,9 @@ namespace PatientDTO
 
 
   // 患者信息 包含 UUID 时间戳（用于获取）
-  class GET : public SET {
+  class info_with_uuid_time : public info_with_uuid_no_time {
     
-    DTO_INIT(GET, SET)
+    DTO_INIT(info_with_uuid_time, info_with_uuid_no_time)
 
     DTO_FIELD(String, create_time);
     DTO_FIELD_INFO(create_time){info->description = "创建时间";}
@@ -69,27 +78,27 @@ namespace PatientDTO
   };
 
   // 分页body
-  class Page : public PageDTO<oatpp::Object<PatientDTO::GET>>{
-    DTO_INIT(Page, PageDTO<oatpp::Object<PatientDTO::GET>>)
+  class page_with_info : public PageDTO<oatpp::Object<PatientDTO::info_with_uuid_time>>{
+    DTO_INIT(page_with_info, PageDTO<oatpp::Object<PatientDTO::info_with_uuid_time>>)
   };
   // 用于分页批量获取患者
-  class PageResult : public ResultDTO {
-    DTO_INIT(PageResult, ResultDTO)
-    DTO_FIELD(oatpp::Object<Page>, result);
+  class result_with_page : public ResultDTO {
+    DTO_INIT(result_with_page, ResultDTO)
+    DTO_FIELD(oatpp::Object<page_with_info>, result);
   };
   // 创建患者后返回新患者的信息
-  class SingleResult : public ResultDTO {
-    DTO_INIT(SingleResult, ResultDTO)
-    DTO_FIELD(oatpp::Object<GET>, result);
+  class result_with_single : public ResultDTO {
+    DTO_INIT(result_with_single, ResultDTO)
+    DTO_FIELD(oatpp::Object<info_with_uuid_time>, result);
   };
   // 符合条件的多个患者信息
-  class MultiResults : public ResultDTO {
-    DTO_INIT(MultiResults, ResultDTO)
-    DTO_FIELD(oatpp::Vector<oatpp::Object<GET>>, result);
+  class result_with_multi : public ResultDTO {
+    DTO_INIT(result_with_multi, ResultDTO)
+    DTO_FIELD(oatpp::Vector<oatpp::Object<info_with_uuid_time>>, result);
   };
   // 不包含患者信息的结果
-  class JustResult : public ResultDTO {
-    DTO_INIT(JustResult, ResultDTO)
+  class result_with_nothing : public ResultDTO {
+    DTO_INIT(result_with_nothing, ResultDTO)
   };
 
 

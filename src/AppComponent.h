@@ -20,7 +20,7 @@ public:
 public:
   
   /**
-   * This should be configured through config-server ex. Consul
+   * 配置组件加载、注册
    */
   OATPP_CREATE_COMPONENT(oatpp::Object<ConfigDTO>, config)([this] {
 
@@ -37,17 +37,17 @@ public:
         profileArg = m_cmdArgs.getNamedArgumentValue("--profile", "dev"); // if no env varioable get from command line
       }
 
-      OATPP_LOGD("Server", "Loading configuration profile '%s'", profileArg);
+      OATPP_LOGD("Server", "开始加载配置文件项： '%s'", profileArg);
 
       auto profile = profiles.getValueByKey(profileArg, nullptr);
       if(!profile) {
-        throw std::runtime_error("No configuration profile found. Server won't run.");
+        throw std::runtime_error("配置项无效，服务器终止启动。");
       }
       return profile;
       
     }
     
-    OATPP_LOGE("AppComponent", "Can't load configuration file at path '%s'", configPath);
+    OATPP_LOGE("Server", "无法加载配置文件： '%s'", configPath);
     throw std::runtime_error("[AppComponent]: Can't load configuration file");
     
   }());

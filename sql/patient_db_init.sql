@@ -1,6 +1,7 @@
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- 患者信息表
 CREATE TABLE IF NOT EXISTS patient_information (
     uuid                varchar (256) PRIMARY KEY UNIQUE ,  -- 唯一标识
     name                varchar (256) NOT NULL ,            -- 姓名
@@ -12,6 +13,19 @@ CREATE TABLE IF NOT EXISTS patient_information (
     address1            varchar (256) NULL ,                -- 常住地址
     phone               varchar (256) NOT NULL ,            -- 本人手机/电话
     phone1              varchar (256) NULL ,                -- 亲属电话/紧急联系人
+    create_time         varchar (256) NOT NULL ,            -- 创建时间
+    update_time         varchar (256) NOT NULL ,            -- 修改时间
+    is_delete           boolean default false               -- 是否被删除
+);
+
+-- 病历表
+CREATE TABLE IF NOT EXISTS medical_record (
+    id                  SERIAL PRIMARY KEY ,                -- 自增id（不对外暴露）
+    uuid                varchar (256) NOT NULL ,            -- 病历uuid
+    belong_patient      varchar (256) NOT NULL ,            -- 病历所属病人
+    belong_doctor       varchar (256) NOT NULL ,            -- 开具病历的医生
+    record_content      varchar (512) ,                     -- 病历内容
+    versions            int8 default 0  ,                   -- 病历版本
     create_time         varchar (256) NOT NULL ,            -- 创建时间
     update_time         varchar (256) NOT NULL ,            -- 修改时间
     is_delete           boolean default false               -- 是否被删除
@@ -30,3 +44,6 @@ CREATE TABLE IF NOT EXISTS patient_information (
 
 -- SELECT uuid, name, idn, birth, gender, ethnic, address, address1, phone, phone1, create_time, update_time FROM patient_information WHERE is_delete=false LIMIT :limit OFFSET :offset;
 -- SELECT * FROM patient_information WHERE name like '%李%' AND is_delete=false LIMIT 5;
+
+-- SELECT count(*) FROM patient_information WHERE is_delete=false;
+SELECT * FROM patient_information WHERE name like '%:name%' and is_delete=false;
