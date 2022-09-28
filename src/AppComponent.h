@@ -20,7 +20,7 @@ public:
 public:
   
   /**
-   * This should be configured through config-server ex. Consul
+   * 配置组件加载、注册
    */
   OATPP_CREATE_COMPONENT(oatpp::Object<ConfigDTO>, config)([this] {
 

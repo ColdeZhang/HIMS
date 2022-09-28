@@ -35,6 +35,7 @@ add_library(${project_name}-lib
         "src/dtos/ResultDTO.h"
 
         "src/db/PatientDB.h"
+        "src/db/EthnicDB.h"
 )
 
 add_library(util

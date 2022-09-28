@@ -60,6 +60,7 @@ public:
     info->pathParams["uuid"].description = "患者UUID";
     info->addTag("患者信息");
   }
+  ADD_CORS(getPatientByUUID)
   ENDPOINT("GET", "patient/byUuid", getPatientByUUID,
            QUERY(String, uuid))
   {
@@ -99,7 +100,8 @@ public:
   }
   ENDPOINT("GET", "patient/page", getAllPatients,
            QUERY(oatpp::UInt32, page),
-           QUERY(oatpp::UInt32, totalPage))
+           QUERY(oatpp::UInt32, totalPage))//,
+           //AUTHORIZATION()
   {
     return createDtoResponse(Status::CODE_200, m_patientService.getAllPatients(page, totalPage));
   }
