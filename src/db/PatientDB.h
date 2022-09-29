@@ -22,9 +22,9 @@ public:
                 "uuid                varchar (36) PRIMARY KEY UNIQUE ,   " //-- 唯一标识
                 "name                varchar (64) NOT NULL ,             " //-- 姓名
                 "idn                 varchar (20) NOT NULL UNIQUE ,      " //-- 身份证号码
-                "birth               int NOT NULL ,                      " //-- 出生年月日 YYYYMMDD
-                "gender              int NOT NULL ,                      " //-- 性别
-                "ethnic              varchar (64) NOT NULL ,             " //-- 民族
+                "birth               integer NOT NULL ,                  " //-- 出生年月日 YYYYMMDD
+                "gender              smallint NOT NULL ,                 " //-- 性别
+                "ethnic              smallint NOT NULL ,                 " //-- 民族
                 "marital_status      varchar (64) ,                      " //-- 婚姻状况
                 "job                 varchar (64) ,                      " //-- 职业
                 "company             varchar (128) ,                     " //-- 工作单位

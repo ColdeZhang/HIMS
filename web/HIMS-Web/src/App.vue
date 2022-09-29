@@ -1,11 +1,12 @@
 <template>
 
-    <n-notification-provider>
-        <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
-            <router-view></router-view>
-        </n-config-provider>
-    </n-notification-provider>
-
+    <n-config-provider :theme="lightTheme">
+        <n-notification-provider>
+            <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
+                <router-view></router-view>
+            </n-config-provider>
+        </n-notification-provider>
+    </n-config-provider>
 
 </template>
 
@@ -17,7 +18,8 @@ import {
     NNotificationProvider,
     NConfigProvider,
     zhCN,
-    dateZhCN
+    dateZhCN,
+    lightTheme
 } from 'naive-ui'
 import axios from 'axios';
 

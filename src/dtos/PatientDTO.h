@@ -23,13 +23,13 @@ namespace PatientDTO
     DTO_FIELD(String, idn);
     DTO_FIELD_INFO(idn){info->description = "身份证号";}
 
-    DTO_FIELD(Int32, birth);
+    DTO_FIELD(Int16, birth);
     DTO_FIELD_INFO(birth){info->description = "出生日期 格式 YYYYMMDD";}
 
     DTO_FIELD(Int8, gender);
     DTO_FIELD_INFO(gender){info->description = "性别";}
 
-    DTO_FIELD(String, ethnic);
+    DTO_FIELD(Int8, ethnic);
     DTO_FIELD_INFO(ethnic){info->description = "民族";}
 
     DTO_FIELD(String, marital_status);

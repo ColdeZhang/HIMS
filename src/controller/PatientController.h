@@ -120,6 +120,8 @@ public:
 
 
   ADD_CORS(getPatientByUUID)
+  ADD_CORS(getPatientByIDN)
+  ADD_CORS(createPatient)
 };
 
 #include OATPP_CODEGEN_BEGIN(ApiController) //<- End Codegen
