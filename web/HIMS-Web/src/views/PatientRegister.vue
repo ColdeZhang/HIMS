@@ -36,7 +36,7 @@
                     <n-list bordered style="width: 90%">
                         <template #header>检索到相关信息：{{patients_list.length}} 条</template>
                         <template #footer>提示：如患者已在系统有记录 则从列表中选择 如果列表为空则需要添加患者信息</template>
-                        <n-list-item v-for="i in patients_list">
+                        <n-list-item v-for="i in patients_list" :key="(i as any).name">
                             <template #suffix>
                                 <n-button dashed size="large" @click="chooseExistPatient(i)">选择</n-button>
                             </template>
