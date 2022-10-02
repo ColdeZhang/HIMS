@@ -1,9 +1,7 @@
-# HIMS
-采用c++编写的医院信息管理系统（Hospital Information Manage System）。
+# OHIMS
+采用c++编写的医院信息管理系统（Open Hospital Information Manage System）。
 
-后端使用Oat++框架，兼容sqlite3、PostgreSQL数据库。
-
-前端使用amis框架，兼容pc端和移动端。
+后端使用Oat++框架，PostgreSQL数据库。
 
 ```
 |- CMakeLists.txt                        // 项目配置 CMakeLists.txt
@@ -22,4 +20,5 @@
 |- tests/                                // 测试文件存放
 |- utility/                              // 部署脚本、工具等
 |- configuration/config.json             // 配置文件存放
+|- web/                                  // 前端
 ```

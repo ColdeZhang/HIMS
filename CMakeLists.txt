@@ -38,11 +38,14 @@ add_library(${project_name}-lib
 
         "src/db/PatientDB.h"
         "src/db/EthnicDB.h"
+        "src/db/MedicationDB.h"
 )
 
 add_library(util
         "src/util/empty.cpp"
         "src/util/urlDecode.h"
+        "src/util/computeAge.h"
+        "src/util/randSalt.h"
         )
 
 target_link_libraries(${project_name}-lib

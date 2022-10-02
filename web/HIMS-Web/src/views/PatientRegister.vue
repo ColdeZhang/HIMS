@@ -304,6 +304,15 @@ function notifyNetError() {
     });
 }
 
+// 提示输入错误
+function notifyInputError(msg: string) {
+    notify.error({
+        title: "检查输入",
+        content: msg,
+        duration: 3000,
+    });
+}
+
 // 创建患者信息
 function createPatient() {
     axios
@@ -360,6 +369,9 @@ function chooseNoExistPatient(){
 
 // 第二步到第三步跳转
 function stage2to3(){
+    if (!verifyCurrent()){
+        return;
+    }
     if (current_patient.value.is_new){
         createPatient();
     }
@@ -383,5 +395,34 @@ function stage2to1(){
     current_patient.value.create_time = "";
     current_patient.value.update_time = "";
     prev();
+}
+
+// 验证必输入项
+function verifyCurrent(){
+    if (current_patient.value.idn.length === 0){
+        notifyInputError("请输入身份证号码");
+        return false;
+    }
+    if (current_patient.value.name.length === 0){
+        notifyInputError("请输入姓名");
+        return false;
+    }
+    if (current_patient.value.birth === 0){
+        notifyInputError("请输入出生日期");
+        return false;
+    }
+    if (current_patient.value.phone.length === 0){
+        notifyInputError("请输入本人联系方式");
+        return false;
+    }
+    if (current_patient.value.phone1.length === 0){
+        notifyInputError("请输入亲属联系方式");
+        return false;
+    }
+    if (current_patient.value.address1.length === 0){
+        notifyInputError("请输入常住地址");
+        return false;
+    }
+    return true;
 }
 </script>

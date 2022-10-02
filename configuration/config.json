@@ -10,10 +10,10 @@
       "port": 8000,
       "swaggerHost": "localhost:8000",
       "dbConnectionString": "postgresql://deer@localhost:5432/hims_db",
-      "DatabaseConfig" : {
-        "patientConnectionString": "postgresql://deer@localhost:5432/ohims_patient_db",
-        "medicationConnectionString": "postgresql://deer@localhost:5432/ohims_medication_db",
-        "staticConnectionString": "postgresql://deer@localhost:5432/ohims_static_db"
+      "DatabaseConnectionConfig" : {
+        "patientInformation": "postgresql://deer@localhost:5432/ohims_patient_information_db",
+        "medicationRecord": "postgresql://deer@localhost:5432/ohims_medication_record_db",
+        "hospitalAndStatic": "postgresql://deer@localhost:5432/ohims_hospital_static_db"
       }
     },
     "depoy": {
